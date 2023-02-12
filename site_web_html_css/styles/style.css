@@ -126,3 +126,32 @@ nav a {
     align-items: center;
     margin: auto;
 }
+
+.portfolio-section-photos {
+  background-color: white;
+}
+
+.portfolio-section-photos h2 {
+  color: #242424;
+  margin-bottom: 80px;
+}
+
+.grid-paysages {
+    display: grid;
+    grid-template: 300px 300px 300px/ 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 80px;
+}
+
+.grid-portraits {
+    display: grid;
+    grid-template: 300px 300px / 1fr 1fr 1fr;
+    gap: 15px;
+}
+
+.grid-paysages img,
+.grid-portraits img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

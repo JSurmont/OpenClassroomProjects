@@ -48,3 +48,9 @@ h2 {
 .table-tarifs td {
     padding: 80px;
 }
+
+@media screen and (max-width: 996px) {
+  .section-tarifs {
+    display: none;
+  }
+}

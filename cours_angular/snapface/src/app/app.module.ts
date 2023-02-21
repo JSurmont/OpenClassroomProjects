@@ -12,7 +12,9 @@ import { FaceSnapComponent } from './face-snap/face-snap.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'fr-FR'}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

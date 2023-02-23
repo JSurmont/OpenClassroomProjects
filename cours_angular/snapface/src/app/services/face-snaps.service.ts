@@ -1,96 +1,45 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FaceSnap } from './../models/face-snap.model';
 import { Injectable } from "@angular/core";
+import { Observable } from 'rxjs/internal/Observable';
+import { map, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FaceSnapsService {
 
-  getAllFaceSnaps(): FaceSnap[] {
-    return this.faceSnaps;
+  constructor(private httpClient: HttpClient) {}
+
+  getAllFaceSnaps(): Observable<FaceSnap[]> {
+    return this.httpClient.get<FaceSnap[]>('http://localhost:3000/facesnaps');
   }
 
-  getFaceSnapById(faceSnapId: number): FaceSnap {
-    const faceSnap = this.faceSnaps.find(faceSnap => faceSnap.id === faceSnapId);
-
-    if (faceSnap) {
-      return faceSnap;
-    } else {
-      throw new Error('FaceSnap not found!');
-    }
+  getFaceSnapById(faceSnapId: number): Observable<FaceSnap> {
+    return this.httpClient.get<FaceSnap>(`http://localhost:3000/facesnaps/${faceSnapId}`);
   }
 
-  snapFaceSnapById(faceSnapId:number, snapType: 'snap' | 'unSnap'): void {
-    (snapType == 'snap') ?
-      this.getFaceSnapById(faceSnapId).snaps ++
-      :
-      this.getFaceSnapById(faceSnapId).snaps --;
+  snapFaceSnapById(faceSnapId:number, snapType: 'snap' | 'unSnap'): Observable<FaceSnap>  {
+    return this.getFaceSnapById(faceSnapId).pipe(
+      map(faceSnap => ({
+        ...faceSnap,
+        snaps: faceSnap.snaps + (snapType === 'snap' ? 1 : -1)
+      })),
+      switchMap(updatedFaceSnap => this.httpClient.put<FaceSnap>(`http://localhost:3000/facesnaps/${faceSnapId}`, updatedFaceSnap))
+    );
   }
 
-  addFaceSnap(formValue: {title: string, description: string, imageUrl: string, location?: string}): void {
-    const faceSnap: FaceSnap = {
-      ...formValue,
-      createdDate: new Date(),
-      snaps: 0,
-      id: this.faceSnaps[this.faceSnaps.length -1].id + 1
-    };
-
-    this.faceSnaps.push(faceSnap);
+  addFaceSnap(formValue: {title: string, description: string, imageUrl: string, location?: string}): Observable<FaceSnap> {
+    return this.getAllFaceSnaps().pipe(
+      map(faceSnaps => [...faceSnaps].sort((a, b) => a.id - b.id)),
+      map(sortedFaceSnaps => sortedFaceSnaps[sortedFaceSnaps.length -1]),
+      map(previousFaceSnap => ({
+        ...formValue,
+        snaps: 0,
+        createdDate: new Date(),
+        id: previousFaceSnap.id + 1
+      })),
+      switchMap(newFaceSnap => this.httpClient.post<FaceSnap>('http://localhost:3000/facesnaps', newFaceSnap))
+    );
   }
-
-
-  faceSnaps: FaceSnap[] = [
-    {
-      id: 1,
-      title: 'Archibalde',
-      description:'Mon meilleur ami depuis tout petit !',
-      createdDate: new Date(),
-      snaps: 6,
-      imageUrl: 'https://cdn.pixabay.com/photo/2015/05/31/16/03/teddy-bear-792273_1280.jpg',
-      location: 'Paris'
-    },
-    {
-      id: 2,
-      title: 'Three Rock Mountain',
-      description:'Un endroit magnifique pour les randonnées.',
-      createdDate: new Date(),
-      snaps: 90,
-      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Three_Rock_Mountain_Southern_Tor.jpg/2880px-Three_Rock_Mountain_Southern_Tor.jpg',
-      location: 'la montagne'
-    },
-    {
-      id: 3,
-      title: 'Un bon repas',
-      description:'Mmmh que c\'est bon !',
-      createdDate: new Date(),
-      snaps: 50,
-      imageUrl: 'https://wtop.com/wp-content/uploads/2020/06/HEALTHYFRESH.jpg',
-    },
-    {
-      id: 4,
-      title: 'Archibalde',
-      description:'Mon meilleur ami depuis tout petit !',
-      createdDate: new Date(),
-      snaps: 150,
-      imageUrl: 'https://cdn.pixabay.com/photo/2015/05/31/16/03/teddy-bear-792273_1280.jpg',
-      location: 'Paris'
-    },
-    {
-      id: 5,
-      title: 'Three Rock Mountain',
-      description:'Un endroit magnifique pour les randonnées.',
-      createdDate: new Date(),
-      snaps: 250,
-      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Three_Rock_Mountain_Southern_Tor.jpg/2880px-Three_Rock_Mountain_Southern_Tor.jpg',
-      location: 'la montagne'
-    },
-    {
-      id: 6,
-      title: 'Un bon repas',
-      description:'Mmmh que c\'est bon !',
-      createdDate: new Date(),
-      snaps: 350,
-      imageUrl: 'https://wtop.com/wp-content/uploads/2020/06/HEALTHYFRESH.jpg',
-    }
-  ];
 }

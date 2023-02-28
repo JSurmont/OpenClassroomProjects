@@ -1,7 +1,7 @@
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
-import { FaceSnapsService } from './../services/face-snaps.service';
 import { Component, OnInit } from '@angular/core';
-import { FaceSnap } from '../models/face-snap.model';
+import { FaceSnap } from 'src/app/core/models/face-snap.model';
+import { FaceSnapsService } from 'src/app/core/services/face-snaps.service';
 
 @Component({
   selector: 'app-face-snap-list',

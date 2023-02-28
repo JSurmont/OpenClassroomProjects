@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -15,7 +16,8 @@ import { PostListItemComponent } from './components/post-list-item/post-list-ite
   ],
   imports: [
     CommonModule,
-    SocialMediaRoutingModule
+    SocialMediaRoutingModule,
+    SharedModule
   ],
   providers: [
     PostService,

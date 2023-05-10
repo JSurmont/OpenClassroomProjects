@@ -5,14 +5,15 @@
     </mat-card-title>
 
     <mat-card-subtitle>
-      <span>{{ post.createdDate | date }}</span>
+      <span>{{ tempUser | username: 'en' }}</span><br>
+      <span>{{ post.createdDate | timeAgo }}</span>
     </mat-card-subtitle>
   </mat-card-header>
 
   <img matCardImage *ngIf="post.imageUrl as imageUrl" [src]="imageUrl" [alt]="post.title">
 
   <mat-card-content class="post-content">
-    <span>{{ post.content }}</span>
+    <span>{{ post.content | shorten: 100 }}</span>
   </mat-card-content>
 
   <mat-card-actions>

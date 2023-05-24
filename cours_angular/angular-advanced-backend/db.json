@@ -192,6 +192,24 @@
         "confirmPassword": "moihsdgf"
       },
       "id": 4
+    },
+    {
+      "personalInfo": {
+        "firstName": "test",
+        "lastName": "test"
+      },
+      "contactPreference": "email",
+      "email": {
+        "email": "test@mail.com",
+        "confirm": "test@mail.com"
+      },
+      "phone": "",
+      "loginInfo": {
+        "username": "tet",
+        "password": "test",
+        "confirmPassword": "test"
+      },
+      "id": 5
     }
   ],
   "candidates": [

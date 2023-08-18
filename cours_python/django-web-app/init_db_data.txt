@@ -1,0 +1,8 @@
+Band.objects.create(name="De La Soul")
+Band.objects.create(name="Cut Copy")
+Band.objects.create(name="Foo Fighters")
+
+Listing.objects.create(title="Affiche ORIGINALE de la tournée de De La Soul - Fillmore Auditorium San Francisco novembre 2001")
+Listing.objects.create(title="T-shirt du concert de Cut Copy, tournée Free Your Mind, 2013")
+Listing.objects.create(title="Foo Fighters - l’affiche promo du single Big Me, fin des années 90")
+Listing.objects.create(title="Beethoven - Sonate au clair de lune - manuscrit original EXTRÊMEMENT RARE")

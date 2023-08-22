@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
@@ -8,6 +9,13 @@
     </head>
 
     <body>
+        <nav>
+            <a href="{% url 'band-list' %}">Groupes</a>
+            <a href="{% url 'listing-list' %}">Listings</a>
+            <a href="{% url 'contact-us' %}">Contact</a>
+            <a href="{% url 'about' %}">About</a>
+        </nav>
+
         {% block content %}{% endblock %}
     </body>
 </html>

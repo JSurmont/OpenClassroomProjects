@@ -56,7 +56,9 @@ ROOT_URLCONF = 'fotoblog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR.joinpath('templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,3 +129,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User model
 AUTH_USER_MODEL = 'authentication.User'
+
+
+# page de login sur laquelle si l'utilisateur essaye d'accéder à une page sans être connecté
+LOGIN_URL = 'login'

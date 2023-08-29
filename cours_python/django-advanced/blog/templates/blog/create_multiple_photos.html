@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<!--    <h2>Télécharger plusieurs photos</h2>-->
+
+<!--    <form method="post" enctype="multipart/form-data">-->
+<!--        {{ formset.as_p }}-->
+<!--        {% csrf_token %}-->
+<!--        <button type="submit" >Publier</button>-->
+<!--    </form>-->
+
+<!--Permet de gérer l'affichage de chaque formset individuellement pas de différence au niveau du front-->
+    <h2>Télécharger des photos</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {{ formset.management_form }}
+        {% csrf_token %}
+        {% for form in formset %}
+            {{ form.as_p }}
+        {% endfor %}
+        <button type="submit" >Publier</button>
+    </form>
+
+{% endblock content %}

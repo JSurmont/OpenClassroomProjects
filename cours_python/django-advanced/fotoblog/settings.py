@@ -88,18 +88,29 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
+# Par défaut
+# AUTH_PASSWORD_VALIDATORS = [
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+#     },
+# ]
+
+# Personnalisés
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'authentication.validators.ContainsLetterValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'authentication.validators.ContainsNumberValidator',
     },
 ]
 
@@ -133,3 +144,9 @@ AUTH_USER_MODEL = 'authentication.User'
 
 # page de login sur laquelle si l'utilisateur essaye d'accéder à une page sans être connecté
 LOGIN_URL = 'login'
+
+# page de redirection à la connection d'un utilisateur, pour l'utilisation de la vue générique Loginview
+LOGIN_REDIRECT_URL = 'home'
+
+# page de redirection à la déconnection d'un utilisateur, pour l'utilisation de la vue générique LogoutView
+LOGOUT_REDIRECT_URL = LOGIN_URL

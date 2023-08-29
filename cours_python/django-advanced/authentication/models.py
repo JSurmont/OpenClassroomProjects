@@ -9,7 +9,7 @@ class User(AbstractUser):
 
     ROLE_CHOICES = (
         (CREATOR, 'Créateur'),
-        (SUBSRIBER, 'Abboné')
+        (SUBSRIBER, 'Abonné')
     )
 
     profile_photo = models.ImageField(verbose_name='Photo de profil')

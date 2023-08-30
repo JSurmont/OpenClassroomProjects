@@ -47,9 +47,9 @@ def blog_and_photo_upload(request):
             photo.uploader = request.user
             photo.save()
             blog = blog_form.save(commit=False)
-            blog.author = request.user
             blog.photo = photo
             blog.save()
+            blog.contributors.add(request.user, through_defaults={'contributions': 'Auteur principal'})
             return redirect('home')
     context = {
         'blog_form': blog_form,
@@ -78,7 +78,8 @@ def edit_blog(request, blog_id):
         if 'edit_blog' in request.POST:
             edit_form = forms.BlogForm(request.POST, instance=blog)
             if edit_form.is_valid():
-                edit_form.save()
+                edited_blog = edit_form.save()
+                edited_blog.contributors.add(request.user, through_defaults={'contributions': 'Contributeur'})
                 return redirect('home')
         if 'delete_blog' in request.POST:
             delete_form = forms.DeleteBlogForm(request.POST)
@@ -109,3 +110,16 @@ def create_multiple_photos(request):
     return render(request,
                   'blog/create_multiple_photos.html',
                   {'formset': formset})
+
+
+@login_required
+def follow_users(request):
+    form = forms.FollowUsersForm(instance=request.user)
+    if request.method == 'POST':
+        form = forms.FollowUsersForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    return render(request,
+                  'blog/follow_users_form.html',
+                  {'form': form})

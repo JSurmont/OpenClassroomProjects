@@ -11,9 +11,11 @@ from . import forms, models
 @login_required
 def home(request):
     blogs = models.Blog.objects.filter(
+        Q(contributors__exact=request.user) |
         Q(contributors__in=request.user.follows.all()) |
         Q(starred=True)
-    )
+    ).distinct()
+
     photos = models.Photo.objects.filter(
         uploader__in=request.user.follows.all()
     ).exclude(blog__in=blogs)
@@ -131,6 +133,7 @@ def follow_users(request):
     form = forms.FollowUsersForm(instance=request.user)
     if request.method == 'POST':
         form = forms.FollowUsersForm(request.POST, instance=request.user)
+        list_id = form.cleaned_data['id']
         if form.is_valid():
             form.save()
             return redirect('home')
